@@ -44,6 +44,10 @@ public class SecurityConfig {
                 .requestMatchers("/api/member/join", "/", "/error", "/login").permitAll() // 인증 없이 접근 가능
                 .requestMatchers("/api/admin").hasRole("ADMIN") // 관리자만 접근 가능
                 .anyRequest().authenticated() // 다른 요청은 로그인한 사용자만 접근 가능
+        ).formLogin(form -> form
+                .loginPage("/login") // 커스텀 로그인 페이지 설정
+                .defaultSuccessUrl("/home", true) // 로그인 성공 시 리다이렉트 경로
+                .permitAll()
         );
 
         //JWTFilter 등록
