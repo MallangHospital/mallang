@@ -1,42 +1,40 @@
 package com.mallang.backend.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id; // 고유 ID
 
     @Column(nullable = false)
-    private String title;
+    private String title; // 건의사항 제목
+
+    @Column(nullable = false, length = 2000)
+    private String content; // 건의사항 내용
 
     @Column(nullable = false)
-    private String content;
+    private String name; // 고객 이름
 
     @Column(nullable = false)
-    private String name;
+    private String phoneNumber; // 고객 휴대폰 번호
+
+    @Column
+    private String email; // 고객 이메일 주소 (선택)
 
     @Column(nullable = false)
-    private String phone;
+    private String status = "안 읽음"; // 상태 (기본값: "안 읽음")
 
     @Column(nullable = false)
-    private String email;
+    private LocalDateTime createdDate = LocalDateTime.now(); // 생성 시간
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
+    @ManyToOne
+    @JoinColumn(name = "admin_id") // 컬럼 이름은 실제 DB 구조에 맞춰야 함
+    private Admin admin;
 }

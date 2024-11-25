@@ -41,4 +41,8 @@ public class HealthcareReserve extends BaseEntity {
             this.hType = HealthcareType.개인_건강검진; // 기본값으로 원하는 Enum 값 설정
         }
     }
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id")
+    private Admin admin;
 }

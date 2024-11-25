@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Setter
 @NoArgsConstructor
 public class NoticeDTO {
-    private Long id;
+    private String id;
     private String title;
     private String content;
     private String author;      // 작성자
