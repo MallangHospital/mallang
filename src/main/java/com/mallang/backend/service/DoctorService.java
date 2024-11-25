@@ -36,7 +36,7 @@ public class DoctorService {
                 .position(doctor.getPosition())
                 .phoneNumber(doctor.getPhoneNumber()) // 전화번호 매핑
                 .photoUrl(doctor.getPhotoUrl()) // 사진 URL 매핑
-                .vacationStartDate(doctor.getVacationStartDate()) // 휴진 시작일 매핑
+                //.vacationStartDate(doctor.getVacationStartDate()) // 휴진 시작일 매핑
                 .vacationEndDate(doctor.getVacationEndDate()) // 휴진 종료일 매핑
                 .history(doctor.getHistory()) // 경력 매핑
                 .departmentName(doctor.getDepartment().getName()) // 부서 이름 매핑

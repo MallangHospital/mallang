@@ -1,52 +1,62 @@
 package com.mallang.backend.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Notice {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                 // 공지사항 ID
+    private Long id; // Long으로 수정
 
-    private String title;            // 공지사항 제목
+    @Column(nullable = false)
+    private String title; // 제목
 
-    private String author;           // 작성자 이름
+    @Column(nullable = false)
+    private String writer; // 작성자
 
-    private String email;            // 작성자 이메일
+    @Column(nullable = false)
+    private String email; // 이메일
 
-    private String password;         // 작성자 비밀번호
+    @Column(nullable = false)
+    private String password; // 비밀번호
 
-    private boolean isPrivate;       // 공개 여부 (true = 비공개, false = 공개)
+    @Column(nullable = false)
+    private Boolean isSecret; // 비밀글 여부
 
-    private String thumbnail;        // 대표 이미지
+    private String imagePath; // 대표 이미지 경로
 
-    private String attachment;       // 첨부 파일
+    private String attachmentPath; // 첨부 파일 경로
 
-    @Lob // 긴 텍스트를 저장하기 위한 어노테이션
-    private String content;          // 본문
+    @Column(nullable = false)
+    private String content; // 본문 내용
 
-    private String link;             // 외부 링크
+    private String link; // 관련 링크
 
-    private LocalDate writeDate;     // 작성 날짜
+    @Column(nullable = false)
+    private String status; // 공개 상태 ("공고" 또는 "비공개")
 
-    // @PrePersist를 사용하여 writeDate 초기화
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt; // 작성 시간
+
     @PrePersist
     protected void onCreate() {
-        this.writeDate = LocalDate.now(); // 현재 날짜로 초기화
+        createdAt = LocalDateTime.now(); // 작성 시간 자동 설정
+        if (status == null) {
+            status = isSecret ? "비공개" : "공고"; // 비밀 여부에 따라 상태 설정
+        }
     }
 
-    // 내용 업데이트 메서드
-    public void updateContent(String newContent) {
-        this.content = newContent;
-    }
+    @ManyToOne
+    @JoinColumn(name = "admin_id", nullable = false) // 컬럼 이름은 DB에 맞게 설정, 외래 키 제약조건 추가
+    private Admin admin;
+
 }

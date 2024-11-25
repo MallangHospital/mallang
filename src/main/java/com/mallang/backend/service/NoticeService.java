@@ -20,17 +20,16 @@ public class NoticeService {
         return noticeRepository.findAll().stream()
                 .map(notice -> {
                     NoticeDTO dto = new NoticeDTO(); // 기본 생성자 사용
-                    dto.setId(notice.getId());
+                    dto.setId(String.valueOf(notice.getId()));
                     dto.setTitle(notice.getTitle());
-                    dto.setAuthor(notice.getAuthor());
+                    dto.setAuthor(notice.getWriter());
                     dto.setEmail(notice.getEmail());
                     dto.setPassword(notice.getPassword());
-                    dto.setPrivate(notice.isPrivate());
-                    dto.setThumbnail(notice.getThumbnail());
-                    dto.setAttachment(notice.getAttachment());
+                    dto.setPrivate(notice.getIsSecret());
+                    dto.setAttachment(notice.getAttachmentPath());
                     dto.setContent(notice.getContent());
                     dto.setLink(notice.getLink());
-                    dto.setWriteDate(notice.getWriteDate().toString()); // LocalDate -> String 변환
+                    dto.setWriteDate(notice.getCreatedAt().toString()); // LocalDate -> String 변환
                     return dto;
                 })
                 .collect(Collectors.toList());
@@ -40,12 +39,11 @@ public class NoticeService {
     public NoticeDTO createNotice(NoticeDTO noticeDTO) {
         Notice notice = new Notice(); // 기본 생성자 사용
         notice.setTitle(noticeDTO.getTitle());
-        notice.setAuthor(noticeDTO.getAuthor());
+        notice.setWriter(noticeDTO.getAuthor());
         notice.setEmail(noticeDTO.getEmail());
         notice.setPassword(noticeDTO.getPassword());
-        notice.setPrivate(noticeDTO.isPrivate());
-        notice.setThumbnail(noticeDTO.getThumbnail());
-        notice.setAttachment(noticeDTO.getAttachment());
+        notice.setIsSecret(noticeDTO.isPrivate());
+        notice.setAttachmentPath(noticeDTO.getAttachment());
         notice.setContent(noticeDTO.getContent());
         notice.setLink(noticeDTO.getLink());
 
@@ -54,17 +52,16 @@ public class NoticeService {
 
         // NoticeDTO 반환
         NoticeDTO dto = new NoticeDTO();
-        dto.setId(notice.getId());
+        dto.setId(String.valueOf(notice.getId()));
         dto.setTitle(notice.getTitle());
-        dto.setAuthor(notice.getAuthor());
+        dto.setAuthor(notice.getWriter());
         dto.setEmail(notice.getEmail());
         dto.setPassword(notice.getPassword());
-        dto.setPrivate(notice.isPrivate());
-        dto.setThumbnail(notice.getThumbnail());
-        dto.setAttachment(notice.getAttachment());
+        dto.setPrivate(notice.getIsSecret());
+        dto.setAttachment(notice.getAttachmentPath());
         dto.setContent(notice.getContent());
         dto.setLink(notice.getLink());
-        dto.setWriteDate(notice.getWriteDate().toString()); // LocalDate -> String 변환
+        dto.setWriteDate(notice.getCreatedAt().toString()); // LocalDate -> String 변환
         return dto;
     }
 }
