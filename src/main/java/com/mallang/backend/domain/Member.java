@@ -54,5 +54,4 @@ public class Member extends BaseEntity {
     public void changePhoneNumber(String phoneNum) {
         this.phoneNum = phoneNum;
     }
-
 }

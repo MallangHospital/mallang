@@ -14,23 +14,27 @@ public class News {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                 // 뉴스 ID
+    private Long id; // 뉴스 ID
 
-    private String name;             // 작성자 이름
-    private String password;         // 비밀번호
-    private String email;            // 이메일
-    private String website;          // 홈페이지 URL
+    private String name; // 작성자 이름
+    private String password; // 비밀번호
+    private String email; // 이메일
+    private String website; // 홈페이지 URL
 
-    private String title;            // 뉴스 제목
-    private String content;          // 뉴스 내용
+    private String title; // 뉴스 제목
+    private String content; // 뉴스 내용
 
     @Column(name = "attachment1")
-    private String attachment1;      // 첨부파일 1 URL
+    private String attachment1; // 첨부파일 1 URL
 
     @Column(name = "attachment2")
-    private String attachment2;      // 첨부파일 2 URL
+    private String attachment2; // 첨부파일 2 URL
 
-    private LocalDate writeDate;     // 작성 날짜
+    private LocalDate writeDate; // 작성 날짜
+
+    @ManyToOne
+    @JoinColumn(name = "admin_id", nullable = false) // Long 타입 adminId와 매핑
+    private Admin admin;
 
     // 기본 생성자에서 writeDate 초기화
     @PrePersist
@@ -38,7 +42,6 @@ public class News {
         writeDate = LocalDate.now(); // 현재 날짜로 초기화
     }
 
-    // 특정 필드만 받는 생성자 추가
     public News(String name, String title, String content, String website, String newsDTOTitle, String newsDTOContent, String attachment1, String attachment2) {
         this.name = name;
         this.title = title;

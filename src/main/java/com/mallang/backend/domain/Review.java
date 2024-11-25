@@ -3,72 +3,38 @@ package com.mallang.backend.domain;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Review {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                 // 글 번호 (리뷰 ID)
+    private Long id;
 
-    private String content;          // 리뷰 내용
-    private LocalDate writeDate;     // 작성 날짜
-    private int star;                // 평점
+    private Long memberId; // 사용자 ID
+    private Long memberName; // 사용자 이름
+    private Long doctorId; // 의사 ID
+    private Long doctorName; // 의사 이름
+    private Long star; // 전체 별점
+    private Long departmentId; // 진료과 ID
+    private String departmentName; // 진료과 이름
 
-    private double answerRate;       // 답변율(%)
-    private double overallRating;    // 전체 평점
+    @ElementCollection
+    private List<Integer> detailStars; // 세분화된 별점 (자세한 설명, 치료후 결과, 직원의 친절, 청결함)
 
-    private String consultationMethod; // 상담 경로 (예: 온라인, 오프라인 등)
+    private String content; // 리뷰 내용
+    private String fileUrl; // 첨부 파일 URL
+    private Long memberPassword; // 리뷰 삭제 시 비밀번호
 
-    @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;           // 담당 의사
+    private LocalDateTime createdDate; // 리뷰 등록 날짜
 
-    @ManyToOne
-    @JoinColumn(name = "member_id", nullable = false)
-    private Member member;           // 리뷰 작성자
-
-    private String answer;           // 리뷰에 대한 답변
-
-    // @PrePersist를 사용하여 writeDate 초기화
     @PrePersist
-    protected void onCreate() {
-        this.writeDate = LocalDate.now(); // 현재 날짜로 초기화
-    }
-
-    // 내용 업데이트 메서드
-    public void updateContent(String newContent) {
-        this.content = newContent;
-    }
-
-    // 답변 업데이트 메서드
-    public void updateAnswer(String newAnswer) {
-        this.answer = newAnswer;
-    }
-
-    // 답변율 계산 메서드
-    public void calculateAnswerRate(int totalAnswers, int answered) {
-        if (totalAnswers != 0) {
-            this.answerRate = (answered / (double) totalAnswers) * 100;
-        } else {
-            this.answerRate = 0.0;
-        }
-    }
-
-    // 전체 평점 계산 메서드
-    public void calculateOverallRating(int totalRatings, int starSum) {
-        if (totalRatings != 0) {
-            this.overallRating = (double) starSum / totalRatings;
-        } else {
-            this.overallRating = 0.0;
-        }
+    public void onCreate() {
+        this.createdDate = LocalDateTime.now(); // 리뷰 등록 날짜 자동 설정
     }
 }

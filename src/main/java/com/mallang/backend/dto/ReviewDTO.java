@@ -1,20 +1,23 @@
 package com.mallang.backend.dto;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import java.util.List;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class ReviewDTO {
-    private Long id;                // 글 번호 (리뷰 ID)
-    private String content;         // 리뷰 내용
-    private int star;               // 평점
-    private Long doctorId;          // 리뷰 대상 의사 ID
-    private String mid;          // 리뷰 작성자 ID
-    private double answerRate;      // 답변율(%)
-    private double overallRating;   // 전체 평점
-    private String consultationMethod; // 상담 경로 (예: 온라인, 오프라인 등)
-    private String answer;          // 리뷰에 대한 답변
+    private Long id;
+    private Long departmentId;
+    private String departmentName;
+    private Long doctorId;
+    private Long doctorName;
+    private Long memberName;
+    private Long memberId; // 리뷰 작성자의 ID
+    private Long memberPassword; // 리뷰 작성작의 Password
+    private Long Star;
+    private List<Integer> detailStar; // 세분화된 별점: [자세한 설명, 치료후 결과, 직원의 친절, 청결함]
+    private String content; // 리뷰 내용
+    private String attachment; // 첨부파일 (파일명 또는 경로)
+    private Long createdAt; // 리뷰 등록 시간
 }
