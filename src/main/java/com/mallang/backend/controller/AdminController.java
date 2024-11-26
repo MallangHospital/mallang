@@ -180,16 +180,6 @@ public class AdminController {
         return adminService.getFeedbackList();
     }
 
-    // 건의사항 상태 변경 (읽음으로 설정)
-    @PutMapping("/feedbacks/{id}/read")
-    public String markFeedbackAsRead(@PathVariable Long id) {
-        try {
-            adminService.markFeedbackAsRead(id);
-            return "건의사항이 읽음 상태로 변경되었습니다.";
-        } catch (IllegalArgumentException e) {
-            return e.getMessage();
-        }
-    }
 
     // 공지사항 등록
     @PostMapping("/notices")
@@ -321,7 +311,7 @@ public class AdminController {
     @GetMapping("/reviews/statistics")
     public ResponseEntity<?> getReviewStatistics() {
         try {
-            var statistics = reviewService.calculateReviewStatistics();
+            var statistics = reviewService.calculateDetailAverages();
             return ResponseEntity.ok(statistics);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("통계 조회 중 오류가 발생했습니다.");

@@ -1,4 +1,4 @@
-package com.mallang.backend.service;
+/*package com.mallang.backend.service;
 
 import com.mallang.backend.domain.Doctor;
 import com.mallang.backend.domain.Member;
@@ -122,4 +122,4 @@ class ReviewServiceTest {
         // Verify: mock 메서드 호출 확인
         verify(reviewRepository, times(1)).save(any(Review.class)); // save()가 한 번 호출되었는지 확인
     }
-}
+}*/

@@ -27,7 +27,7 @@ class FeedbackServiceTest {
         feedback.setTitle("Great service");
         feedback.setContent("The service was excellent.");
         feedback.setName("John Doe");
-        feedback.setPhone("123-456-7890");
+        feedback.setPhoneNumber("123-456-7890");
         feedback.setEmail("johndoe@example.com");
 
         // mock FeedbackRepository가 save 메서드를 호출할 때 위 피드백 객체를 반환하도록 설정

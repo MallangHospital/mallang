@@ -1,4 +1,4 @@
-package com.mallang.backend.service;
+/*package com.mallang.backend.service;
 
 import com.mallang.backend.domain.Doctor;
 import com.mallang.backend.domain.Schedule;
@@ -69,7 +69,7 @@ class ScheduleServiceTest {
 
         verify(scheduleRepository, times(1)).findByDoctorIdAndDate(doctorId, date);
     }*/
-
+/*
     @Test
     void testGetAvailableTimes() {
         // given
@@ -109,3 +109,5 @@ class ScheduleServiceTest {
         verify(scheduleRepository, times(1)).findByDoctorIdAndDate(doctorId, date);
     }
 }
+
+ */

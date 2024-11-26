@@ -145,14 +145,6 @@ public class AdminService {
         return feedbackRepository.findAll();
     }
 
-    // 건의사항 상태 변경 (안 읽음 -> 읽음)
-    public void markFeedbackAsRead(Long id) {
-        Feedback feedback = feedbackRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 건의사항을 찾을 수 없습니다."));
-        feedback.setStatus("읽음");
-        feedbackRepository.save(feedback);
-    }
-
     // 공지사항 등록
     public void registerNotice(String title, String writer, String email, String password,
                                Boolean isSecret, MultipartFile representativeImage, MultipartFile attachment,
@@ -272,7 +264,7 @@ public class AdminService {
             dto.setDetailStar(review.getDetailStars()); // 세분화된 별점
             dto.setContent(review.getContent());
             dto.setAttachment(review.getFileUrl()); // 첨부파일 경로
-            dto.setCreatedAt(review.getCreatedDate().toEpochSecond(ZoneOffset.UTC)); // 등록 시간
+            dto.setCreatedAt(review.getCreatedDate()); // 등록 시간
             reviewDTOList.add(dto);
         }
 
