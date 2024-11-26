@@ -28,7 +28,7 @@ public class FeedbackService {
     public Feedback updateFeedbackStatus(Long id, String status) {
         Feedback feedback = feedbackRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("건의사항 ID가 존재하지 않습니다."));
-        feedback.setStatus(status); // 상태 업데이트
+
         return feedbackRepository.save(feedback);
     }
 }
