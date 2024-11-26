@@ -1,12 +1,15 @@
 package com.mallang.backend.domain;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Feedback {
 
     @Id
@@ -28,13 +31,11 @@ public class Feedback {
     @Column
     private String email; // 고객 이메일 주소 (선택)
 
-    @Column(nullable = false)
-    private String status = "안 읽음"; // 상태 (기본값: "안 읽음")
 
     @Column(nullable = false)
     private LocalDateTime createdDate = LocalDateTime.now(); // 생성 시간
 
     @ManyToOne
     @JoinColumn(name = "admin_id") // 컬럼 이름은 실제 DB 구조에 맞춰야 함
-    private Admin admin;
+    private Admin admin; // 관리자로부터 연결된 정보
 }
