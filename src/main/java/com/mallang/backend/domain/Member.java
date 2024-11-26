@@ -33,9 +33,6 @@ public class Member extends BaseEntity {
     @Column(length = 20, nullable = false)
     private Role role;
 
-    @Column(nullable = false)
-    private boolean agreeToTerms;
-
     public void changePassword(String mpw) {
         this.mpw = mpw;
     }

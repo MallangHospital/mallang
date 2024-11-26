@@ -32,4 +32,5 @@ public class FeedbackController {
         Feedback savedFeedback = feedbackService.submitFeedback(feedback);
         return ResponseEntity.ok("건의사항이 접수되었습니다. ID: " + savedFeedback.getId());
     }
+
 }

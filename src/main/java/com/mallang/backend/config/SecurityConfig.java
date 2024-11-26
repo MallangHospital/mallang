@@ -40,7 +40,7 @@ public class SecurityConfig {
         http.httpBasic((auth) -> auth.disable());
 
         // 경로별 인가 작업
-        http.authorizeHttpRequests((auth) -> auth
+        /*http.authorizeHttpRequests((auth) -> auth
                 .requestMatchers("/api/member/join", "/", "/error", "/login").permitAll() // 인증 없이 접근 가능
                 .requestMatchers("/api/admin").hasRole("ADMIN") // 관리자만 접근 가능
                 .anyRequest().authenticated() // 다른 요청은 로그인한 사용자만 접근 가능
@@ -49,6 +49,12 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/home", true) // 로그인 성공 시 리다이렉트 경로
                 .permitAll()
         );
+         */
+
+        http.authorizeHttpRequests((auth) -> auth
+                .anyRequest().permitAll() // 모든 경로에 대해 인증 없이 접근 허용
+        );
+
 
         //JWTFilter 등록
         http

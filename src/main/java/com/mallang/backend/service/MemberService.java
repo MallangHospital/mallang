@@ -20,10 +20,6 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
 
     public void join(MemberJoinDTO memberJoinDTO) {
-        // 약관 동의 확인
-        if (!memberJoinDTO.isAgreeToTerms()) {
-            throw new IllegalArgumentException("약관에 동의해야 합니다.");
-        }
 
         // 아이디 중복 확인
         if (memberRepository.existsById(memberJoinDTO.getMid())) {
