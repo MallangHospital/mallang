@@ -8,7 +8,7 @@ async function idCheck() {
   }
 
   try {
-    const response = await fetch(`/api/member/check-id/${userId}`, {
+    const response = await fetch(`https://mallang-a85bb2ff492b.herokuapp.com/api/member/check-id/${userId}`, {
       method: 'GET',
     });
 
