@@ -42,9 +42,6 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vacation> vacations = new ArrayList<>(); // 의사와 연결된 휴진 정보 목록
 
-    @ManyToOne(fetch = FetchType.LAZY)  // Admin과의 관계 설정
-    @JoinColumn(name = "admin_id")  // 외래 키 설정
-    private Admin admin; // 관리자가 지정한 의료진
 
     // 기본 생성자와 모든 필드를 초기화하는 생성자가 제공됩니다.
 }

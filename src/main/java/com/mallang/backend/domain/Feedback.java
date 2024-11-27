@@ -35,7 +35,11 @@ public class Feedback {
     @Column(nullable = false)
     private LocalDateTime createdDate = LocalDateTime.now(); // 생성 시간
 
+<<<<<<< Updated upstream
     @ManyToOne
     @JoinColumn(name = "admin_id") // 컬럼 이름은 실제 DB 구조에 맞춰야 함
     private Admin admin; // 관리자로부터 연결된 정보
+=======
+
+>>>>>>> Stashed changes
 }

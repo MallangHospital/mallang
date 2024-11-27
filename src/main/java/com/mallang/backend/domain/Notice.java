@@ -55,8 +55,5 @@ public class Notice {
         }
     }
 
-    @ManyToOne
-    @JoinColumn(name = "admin_id", nullable = false) // 컬럼 이름은 DB에 맞게 설정, 외래 키 제약조건 추가
-    private Admin admin;
 
 }
