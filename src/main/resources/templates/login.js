@@ -22,22 +22,18 @@ document.getElementById('loginFrm').addEventListener('submit', async function (e
             body: JSON.stringify({ username, password }),
         });
 
-        console.log("API 응답 상태:", response.status); // 응답 상태 로그
 
         if (response.ok) {
             const data = await response.json();
-            console.log("로그인 성공 데이터:", data); // 성공 데이터 로그
             alert("로그인 성공!");
 
             // 성공 시 리다이렉트
             window.location.href = '/home.html';
         } else {
             const errorMessage = await response.text();
-            console.error("로그인 실패 메시지:", errorMessage); // 실패 메시지 로그
             alert(`로그인 실패. 다시 시도해주세요.`);
         }
     } catch (error) {
-        console.error("로그인 요청 중 오류 발생:", error); // 오류 로그
         alert(`오류 발생. 다시 시도해주세요.`);
     }
 });
