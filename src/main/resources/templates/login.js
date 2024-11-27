@@ -10,11 +10,9 @@ document.getElementById('loginFrm').addEventListener('submit', async function (e
         return;
     }
 
-    console.log("로그인 요청:", { username, password }); // 요청 데이터 로그
-
     try {
         // Heroku API 경로
-        const response = await fetch('https://mallang-a85bb2ff492b.herokuapp.com/api/member/login', {
+        const response = await fetch('https://mallang-a85bb2ff492b.herokuapp.com/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
