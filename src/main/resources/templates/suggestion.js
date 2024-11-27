@@ -73,10 +73,10 @@ document
 
       // 응답 처리
       if (response.ok) {
-        const result = await response.text();
+        const result = await response.json();
         showModal(result); // 성공 메시지 표시
       } else {
-        const error = await response.text();
+        const error = await response.json();
         showModal(error); // 서버에서 반환된 오류 메시지 표시
       }
     } catch (error) {
@@ -98,3 +98,41 @@ function showModal(message) {
 document.getElementById('close-modal').addEventListener('click', function () {
   document.getElementById('modal').style.display = 'none';
 });
+
+async function getPosts() {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'GET',
+    });
+
+    console.info(response);
+    if (response.ok) {
+      // 성공 처리~
+    } else {
+      // 예외 처리~
+    }
+
+    const data = await response.json();
+
+    console.info(data);
+
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+async function addPost() {
+  try {
+    const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+    });
+    const data = await response.json();
+
+    console.info(data);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+addPost();
