@@ -40,31 +40,53 @@
       </div>
 
       <script>
-        async function fetchSuggestions() {
-          const response = await fetch('/api/suggestions');
-          const suggestions = await response.json();
+        // 건의사항 목록 가져오기
+        async function fetchFeedbacks() {
+          try {
+            // Spring Boot 엔드포인트 호출
+            const response = await fetch('/feedbacks');
+            if (!response.ok) {
+              throw new Error('데이터를 가져오는 데 실패했습니다.');
+            }
 
-          const tableBody = document.querySelector('#suggestions-table tbody');
-          suggestions.forEach((suggestion) => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                    <td>${suggestion.title}</td>
-                    <td>${suggestion.name}</td>
-                    <td>${suggestion.phone}</td>
-                    <td>${new Date(suggestion.created_at).toLocaleString()}</td>
-                    <td><button class="admin-action-btn" onclick="viewDetails(${
-                      suggestion.id
-                    })">보기</button></td>
-                `;
-            tableBody.appendChild(row);
-          });
+            // JSON 데이터 파싱
+            const feedbacks = await response.json();
+
+            // 테이블에 데이터 표시
+            const tableBody = document.querySelector('#feedbacks-table tbody');
+            tableBody.innerHTML = ''; // 기존 데이터 초기화
+
+            if (feedbacks.length === 0) {
+              document.getElementById('no-data-message').style.display =
+                'block';
+              return;
+            }
+
+            document.getElementById('no-data-message').style.display = 'none';
+
+            // 데이터 추가
+            feedbacks.forEach((feedback) => {
+              const row = document.createElement('tr');
+              row.innerHTML = `
+        <td>${feedback.title}</td>
+        <td>${feedback.name}</td>
+        <td>${feedback.phoneNumber}</td>
+        <td>${new Date(feedback.createdAt).toLocaleString()}</td>
+        <td>${feedback.content}</td>
+      `;
+              tableBody.appendChild(row);
+            });
+          } catch (error) {
+            console.error(error.message);
+            alert('건의사항 목록을 불러오는 중 오류가 발생했습니다.');
+          }
         }
 
         function viewDetails(id) {
           window.location.href = `/suggestion-details.html?id=${id}`;
         }
 
-        fetchSuggestions();
+        fetchFeedbacks();
       </script>
       <div id="footer"></div>
     </div>
