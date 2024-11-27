@@ -104,11 +104,10 @@ async function submitForm() {
     name: document.getElementById('name').value.trim(),
     phoneNum: document.getElementById('phoneNum').value.trim(),
     rrn: document.getElementById('rrn').value.trim(),
-    agreeToTerms: localStorage.getItem('agreeToTerms') === 'true'
   };
 
   try {
-    const response = await fetch('/api/member/join', {
+    const response = await fetch('https://mallang-a85bb2ff492b.herokuapp.com/api/member/join', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -129,16 +128,4 @@ async function submitForm() {
     submitButton.disabled = false; // 에러든 성공이든 버튼 활성화
   }
 
-  // 서버 상태 확인
-  try {
-    const statusResponse = await fetch('/api/status', { method: 'GET' });
-    if (statusResponse.ok) {
-      const status = await statusResponse.text();
-      console.log("서버 상태:", status);
-    } else {
-      alert("서버 상태 확인 실패");
-    }
-  } catch (error) {
-    alert("서버 연결에 실패했습니다.");
-  }
 }
