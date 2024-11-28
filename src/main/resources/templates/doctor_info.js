@@ -1,21 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const doctors = [
-      { photo: "assets/의사이미지/내과/김준완.jpeg", name: "김준완", specialty: "내과", contact: "010-1234-5678" },
-      { photo: "assets/의사이미지/내과/안정원.jpeg", name: "안정원", specialty: "내과", contact: "010-2345-6789" },
-      { photo: "assets/의사이미지/내과/양석형.jpeg", name: "양석형", specialty: "내과", contact: "010-3456-7890" },
-      { photo: "assets/의사이미지/내과/이익준.jpeg", name: "이익준", specialty: "내과", contact: "010-4567-8901" },
-      { photo: "assets/의사이미지/산부인과/서정민.jpeg", name: "서정민", specialty: "산부인과", contact: "010-5678-9012" },
-      { photo: "assets/의사이미지/산부인과/이선호.jpeg", name: "이선호", specialty: "산부인과", contact: "010-6789-0123" },
-      { photo: "assets/의사이미지/산부인과/전소라.jpeg", name: "전소라", specialty: "산부인과", contact: "010-7890-1234" },
-      { photo: "assets/의사이미지/산부인과/정지훈.jpeg", name: "정지훈", specialty: "산부인과", contact: "010-8901-2345" },
-      { photo: "assets/의사이미지/소아청소년과/민우혁.jpeg", name: "민우혁", specialty: "소아청소년과", contact: "010-9012-3456" },
-      { photo: "assets/의사이미지/소아청소년과/서인호.jpeg", name: "서인호", specialty: "소아청소년과", contact: "010-0123-4567" },
-      { photo: "assets/의사이미지/소아청소년과/차정숙.jpeg", name: "차정숙", specialty: "소아청소년과", contact: "010-1234-5678" },
-      { photo: "assets/의사이미지/소아청소년과/최승희.jpeg", name: "최승희", specialty: "소아청소년과", contact: "010-2345-6789" },
-      { photo: "assets/의사이미지/외과/유혜정.jpeg", name: "유혜정", specialty: "외과", contact: "010-3456-7890" },
-      { photo: "assets/의사이미지/외과/정윤도.jpeg", name: "정윤도", specialty: "외과", contact: "010-4567-8901" },
-      { photo: "assets/의사이미지/외과/진서우.jpeg", name: "진서우", specialty: "외과", contact: "010-5678-9012" },
-      { photo: "assets/의사이미지/외과/홍지홍.jpeg", name: "홍지홍", specialty: "외과", contact: "010-6789-0123" },
+      //의사 정보 불러오기
     ];
   
     const ITEMS_PER_PAGE = 4; // 페이지당 항목 수
@@ -75,42 +60,70 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
 
-  document.addEventListener("DOMContentLoaded", function () {
-    // 의료진 정보 등록 폼
-    const doctorForm = document.querySelector("form");
+  // 의료진 정보 등록
+    document.addEventListener("DOMContentLoaded", function () {
+      const doctorForm = document.querySelector("form");
   
-    doctorForm.addEventListener("submit", function (e) {
-      e.preventDefault(); // 폼 제출 방지
+      doctorForm.addEventListener("submit", async function (e) {
+          e.preventDefault(); // 기본 제출 방지
   
-      const doctorName = document.getElementById("doctor-name").value.trim();
-      const doctorDepartment = document.getElementById("doctor-department").value;
-      const doctorContact = document.getElementById("doctor-contact").value.trim();
-      const doctorImage = document.getElementById("doctor-image").files[0];
+          const doctorName = document.getElementById("doctor-name").value.trim();
+          const doctorDepartment = document.getElementById("doctor-department").value;
+          const doctorContact = document.getElementById("doctor-contact").value.trim();
+          const doctorImage = document.getElementById("doctor-image").files[0];
   
-      if (!doctorName) {
-        alert("의료진 이름을 입력해주세요.");
-        return;
-      }
+          // 입력값 검증
+          if (!doctorName || !doctorDepartment || !doctorContact || !doctorImage) {
+              alert("모든 필드를 입력해주세요.");
+              return;
+          }
+          if (!doctorName) {
+            alert("의료진 이름을 입력해주세요.");
+            return;
+          }
+      
+          if (!doctorDepartment) {
+            alert("전문분야를 선택해주세요.");
+            return;
+          }
+      
+          if (!doctorContact) {
+            alert("연락처를 입력해주세요.");
+            return;
+          }
+      
+          if (!doctorImage) {
+            alert("사진을 추가해주세요.");
+            return;
+          }
+
+          // FormData 생성 (파일 포함)
+          const formData = new FormData();
+          formData.append("name", doctorName);  //의사이름
+          formData.append("departmentName", doctorDepartment);  // 전문분야
+          formData.append("phoneNumber", doctorContact);   // 휴대폰 번호
+          formData.append("photo", doctorImage); // 의사사진
   
-      if (!doctorDepartment) {
-        alert("전문분야를 선택해주세요.");
-        return;
-      }
+          try {
+              const response = await fetch("https://mallang-a85bb2ff492b.herokuapp.com/api/doctors", {
+                  method: "POST",
+                  body: formData,
+              });
   
-      if (!doctorContact) {
-        alert("연락처를 입력해주세요.");
-        return;
-      }
+              if (response.ok) {
+                  alert("의료진 정보가 성공적으로 등록되었습니다.");
+                  doctorForm.reset(); // 폼 초기화
+              } else {
+                  const error = await response.text();
+                  alert(`등록 실패: ${error}`);
+              }
+          } catch (error) {
+              console.error("등록 중 오류 발생:", error);
+              alert("등록 처리 중 오류가 발생했습니다.");
+          }
+      });
+  });
   
-      if (!doctorImage) {
-        alert("사진을 추가해주세요.");
-        return;
-      }
-  
-      // 유효성 검사가 모두 통과된 경우
-      alert("의료진 정보가 성공적으로 등록되었습니다.");
-      doctorForm.submit();
-    });
   
     // 의료진 휴진 정보 등록 폼
     const vacationForm = document.querySelectorAll("form")[1]; // 두 번째 폼
@@ -146,5 +159,37 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("휴진 정보가 성공적으로 등록되었습니다.");
       vacationForm.submit();
     });
-  });
+
   
+  document.addEventListener("DOMContentLoaded", () => {
+    const showPopup = (message, callback) => {
+      const popupOverlay = document.getElementById("popup-overlay");
+      const popupMessage = document.getElementById("popup-message");
+      const confirmButton = document.getElementById("popup-confirm");
+
+      popupMessage.textContent = message;
+      popupOverlay.style.display = "flex";
+
+      confirmButton.onclick = () => {
+        popupOverlay.style.display = "none";
+        if (callback) callback();
+      };
+    };
+
+    // 삭제 버튼 동작
+    document.querySelectorAll(".btn-delete").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        showPopup("해당 정보를 삭제하시겠습니까?", () => {
+          showPopup("삭제되었습니다.");
+        });
+      });
+    });
+
+    // 추가 버튼 동작
+    document.querySelectorAll(".btn-add").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        showPopup("추가되었습니다.");
+      });
+    });
+  });
